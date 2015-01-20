@@ -1,8 +1,13 @@
 # Z
+[![Travis
+branch](https://img.shields.io/travis/emil2k/z.svg?style=flat)](https://travis-ci.org/emil2k/z)
+[![Coverage
+Status](https://img.shields.io/coveralls/emil2k/z.svg?style=flat)](https://coveralls.io/r/emil2k/z)
 
 **WARNING: This is a work in progress, if you want to help jump in.**
 
-A tool for generating table driven tests for Go code.
+A tool for generating [table driven
+tests](https://github.com/golang/go/wiki/TableDrivenTests) in Go.
 
 ## Installation
 

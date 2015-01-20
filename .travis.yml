@@ -1,0 +1,16 @@
+language: go
+go:
+  - 1.4
+  - tip
+os:
+  - linux
+  - osx
+before_install:
+  - go get github.com/axw/gocov/gocov
+  - go get github.com/modocache/gover
+  - go get github.com/mattn/goveralls
+  - go get golang.org/x/tools/cmd/cover
+script:
+  - go test -bench=. -benchmem -covermode=count -coverprofile=main.coverprofile github.com/emil2k/z
+  - $HOME/gopath/bin/gover
+  - $HOME/gopath/bin/goveralls -coverprofile=gover.coverprofile -service travis-ci -repotoken kIsy0CImspRqeO6Yt938gJp2fpMulzVOz
