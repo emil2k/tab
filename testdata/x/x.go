@@ -8,6 +8,10 @@ func ExportedFunction(a int, b string) error {
 	return nil
 }
 
+func ExportedFailFunction(a int, b string) error {
+	return nil
+}
+
 func nonExportedFunction(a int, b string) error {
 	return nil
 }
@@ -20,7 +24,11 @@ type ExportedType struct{}
 
 type nonExportedType struct{}
 
-func (e ExportedType) ExportedMethod(a, b int) error {
+func (e ExportedType) ExportedMethod(a string, b func() bool, c ...int) error {
+	return fmt.Errorf("nop")
+}
+
+func (e ExportedType) ExportedFailMethod(a string, b func() bool, c ...int) error {
 	return fmt.Errorf("nop")
 }
 
