@@ -186,10 +186,10 @@ func TestFileTTIdents(t *testing.T) {
 
 // TestProcessFile attempts to process file, there should be no errors.
 func TestProcessFile(t *testing.T) {
-	if err := processFile("testdata/x/x_pass_test.go", "x"); err != nil {
+	if _, err := fileTTDecls("testdata/x/x_pass_test.go", "x"); err != nil {
 		t.Error("should not get error", err.Error())
 	}
-	if err := processFile("testdata/x/x_fail_test.go", "x"); err == nil {
+	if _, err := fileTTDecls("testdata/x/x_fail_test.go", "x"); err == nil {
 		t.Error("should get an error")
 	}
 }

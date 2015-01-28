@@ -1,8 +1,8 @@
-# Z
+# Tab
 [![Travis
-branch](https://img.shields.io/travis/emil2k/z.svg?style=flat)](https://travis-ci.org/emil2k/z)
+branch](https://img.shields.io/travis/emil2k/tab.svg?style=flat)](https://travis-ci.org/emil2k/tab)
 [![Coverage
-Status](https://img.shields.io/coveralls/emil2k/z.svg?style=flat)](https://coveralls.io/r/emil2k/z)
+Status](https://img.shields.io/coveralls/emil2k/tab.svg?style=flat)](https://coveralls.io/r/emil2k/tab)
 
 **WARNING: This is a work in progress, if you want to help jump in.**
 
@@ -12,7 +12,7 @@ tests](https://github.com/golang/go/wiki/TableDrivenTests) in Go.
 ## Installation
 
 ```
-go get github.com/emil2k/z
+go get github.com/emil2k/tab
 ```
 
 ## Compatibility
@@ -57,7 +57,7 @@ that returns the necessary type, i.e `func() int` for `int`.
 Afterwards, add a `go generate` directive to the file for generating the tests :
 
 ```go
-//go:generate z
+//go:generate tab
 ```
 
 To generate the tests in the package directory run :
@@ -77,7 +77,8 @@ var ttF = []struct{
 	...
 }
 
-// TestTTF is an automatically generated table driven test for the function F.
+// TestTTF is an automatically generated table driven test for the function F
+// using the tests defined in ttF.
 func TestTTF(t *testing.T) {
 	...
 }
@@ -89,15 +90,19 @@ var ttT_M = []struct{
 	...
 }
 
-// TestTTT_M is an automatically generate table driven test for the method T.M.
+// TestTTT_M is an automatically generate table driven test for the method T.M
+// using the tests defined in ttT_M.
 func TestTTT_M(t *testing.T) {
 	...
 }
 ```
 
-The generated functions will test that the outputs match expections. By default
-equality is evaluated using `==` or `reflect.DeepEqual`. Equality can also be
-determined by defining a custom function using the following naming convention :
+The generated functions will test that the outputs match expections.
+
+## TODO
+
+By default inequality is evaluated using `!=`. Equality can also be determined
+by defining a custom function using the following naming convention :
 
 ```go
 // tt_T determines equality for all fields of type T in this package.

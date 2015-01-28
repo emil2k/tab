@@ -9,22 +9,18 @@ import (
 	"strings"
 )
 
-// processFile generates table driven tests inside the file specified by path
+// fileTTDecls generates table driven tests inside the file specified by path
 // for the specified package name.
-func processFile(path, pkgName string) error {
+func fileTTDecls(path, pkgName string) ([]*ttDecl, error) {
 	// Parse file for potential tt identifiers.
 	ttIdents, err := fileTTIdents(path)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	// Parse directory to find the functions, types, and methods associated
 	// with the table test declarations.
 	dir := filepath.Dir(path)
-	_, err = dirTTDecls(dir, ttIdents, pkgName)
-	if err != nil {
-		return err
-	}
-	return nil
+	return dirTTDecls(dir, ttIdents, pkgName)
 }
 
 // fileTTIdents returns a list of all the identifiers of the potential table
@@ -54,6 +50,32 @@ type ttDecl struct {
 	t   *ast.TypeSpec  // type declaration if testing a method
 
 	ttIdent, fIdent, tIdent string
+}
+
+// isMethod returns whether the test is testing a method, otherwise testing a
+// function.
+func (td ttDecl) isMethod() bool {
+	return len(td.tIdent) > 0
+}
+
+// testName returns the name for the test function.
+func (td ttDecl) testName() string {
+	if td.isMethod() {
+		return fmt.Sprintf("TestTT%s_%s", td.tIdent, td.fIdent)
+	} else {
+		return fmt.Sprintf("TestTT%s", td.fIdent)
+	}
+}
+
+// testDoc returns the doc string for the test function.
+func (td ttDecl) testDoc() string {
+	if td.isMethod() {
+		return fmt.Sprintf("%s is an automatically generate table driven test for the method %s.%s using the tests defined in %s.",
+			td.testName(), td.tIdent, td.fIdent, td.ttIdent)
+	} else {
+		return fmt.Sprintf("%s is an automatically generate table driven test for the function %s using the tests defined in %s.",
+			td.testName(), td.fIdent, td.ttIdent)
+	}
 }
 
 // dirTTDecls compiles a list of all the valid tt declarations found in the
