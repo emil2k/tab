@@ -176,6 +176,24 @@ func TestTTDummyFunction(t *testing.T) {
 
 ## TODO
 
+Improve error messages of the generated tests, can base on the output type :
+
+- Identify the particular test that failed.
+- If outputs a struct it could test that each field of the struct matches
+  expectations and output errors for individual fields.
+- If outputs a map it could test that all the keys match expectations and output
+  errors for individual keys. Similar test for arrays/slices.
+- If outputs a function it could be provided with another set of table tests
+  for the expected value which the returned function must pass for the test to
+  pass.
+
+## TODO
+
+Provide flags to prevent replacement of existing function and the option to
+place each table test into a separate test function.
+
+## TODO
+
 By default inequality is evaluated using `!=`. Equality can also be determined
 by defining a custom function using the following naming convention :
 
