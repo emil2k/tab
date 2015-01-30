@@ -8,8 +8,9 @@ func {{ .Name }}(t *testing.T) {
 		{{ if .Results }}{{ .Results }} := {{ end }}{{ .CallExpr }}({{ .Params }})
 {{ range .Checks }}		if {{ .Expected }} != {{ .Got }} {
 			t.Errorf("expected %v, got %v\n", {{ .Expected }}, {{ .Got }})
-		}{{ end }}
-	}
+		}
+{{ end }}	}
 }{{ if .AppendNewlines }}
 
-{{ end }}`
+{{ end }}
+`
