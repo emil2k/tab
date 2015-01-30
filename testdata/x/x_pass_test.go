@@ -14,8 +14,8 @@ var ttExportedFunction = []struct {
 	{2, "bop", nil},
 }
 
-// TestExportedFunction OLD DOC should be replaced.
-func TestExportedFunction(t *testing.T) {}
+// TestTTExportedFunction OLD DOC should be replaced.
+func TestTTExportedFunction(t *testing.T) {}
 
 var ttExportedType_ExportedMethod = []struct {
 	r *ExportedType //  pointer is always allowed
