@@ -70,10 +70,10 @@ func (td ttDecl) testName() string {
 // testDoc returns the doc string for the test function.
 func (td ttDecl) testDoc() string {
 	if td.isMethod() {
-		return fmt.Sprintf("%s is an automatically generate table driven test for the method %s.%s using the tests defined in %s.",
+		return fmt.Sprintf("%s is an automatically generated table driven test for the method %s.%s using the tests defined in %s.",
 			td.testName(), td.tIdent, td.fIdent, td.ttIdent)
 	} else {
-		return fmt.Sprintf("%s is an automatically generate table driven test for the function %s using the tests defined in %s.",
+		return fmt.Sprintf("%s is an automatically generated table driven test for the function %s using the tests defined in %s.",
 			td.testName(), td.fIdent, td.ttIdent)
 	}
 }
