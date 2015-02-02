@@ -12,8 +12,7 @@ import (
 // Processes the file twice to see if multiple operations properly replace a
 // rendered test function without breaking the code.
 func TestPutTTDecl(t *testing.T) {
-	pkgPath := getTestDirCopy(t, "testputttdecl",
-		filepath.FromSlash("testdata/x/"))
+	pkgPath := getTestDir(t, filepath.FromSlash("testdata/x/"))
 	defer os.RemoveAll(pkgPath)
 	file := filepath.Join(pkgPath, "x_pass_test.go")
 	tds, err := fileTTDecls(file, "x")

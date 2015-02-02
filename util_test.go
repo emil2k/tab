@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"go/ast"
 	"io"
@@ -9,6 +10,33 @@ import (
 	"path/filepath"
 	"testing"
 )
+
+// testFiles compares the contents of two files specified by the passed paths,
+// the test fails immediateley in case of error if they are not equal.
+// The first file is considered the "got" value while the second is considered
+// the "expected" value.
+func testFiles(t *testing.T, got, expected string) {
+	check := func(err error) {
+		if err != nil {
+			t.Error(err.Error())
+			t.FailNow()
+		}
+	}
+	gotF, err := os.Open(got)
+	check(err)
+	defer gotF.Close()
+	expectedF, err := os.Open(expected)
+	check(err)
+	defer expectedF.Close()
+	gotContent, err := ioutil.ReadAll(gotF)
+	check(err)
+	expectedContent, err := ioutil.ReadAll(expectedF)
+	check(err)
+	if !bytes.Equal(gotContent, expectedContent) {
+		t.Errorf("contents dont't match, got %s :\n%s\nexpected %s :\n%s\n",
+			got, gotContent, expected, expectedContent)
+	}
+}
 
 // getTestPkg attempt to get a package, in case of errors it fails and
 // terminates the test.
@@ -22,12 +50,11 @@ func getTestPkg(t *testing.T, dir, pkgName string) *ast.Package {
 	return pkg
 }
 
-// getTestDirCopy creates a temporary directory copies the src directory into it
-// and returns its path. Prefix is used is prefixed to the temporary directory.
-// User is responsible for removing the directory after use.
+// getTestDirCopy creates a temporary directory copies the src directory,
+// returns path to temporary directory.
 // In case of errors it immediately fails the test with a proper message.
-func getTestDirCopy(t *testing.T, prefix, src string) string {
-	temp, err := ioutil.TempDir("", prefix)
+func getTestDir(t *testing.T, src string) string {
+	temp, err := ioutil.TempDir("", "tabtest")
 	if err != nil {
 		t.Error("error while creating temp dir :", err.Error())
 		t.FailNow()
@@ -49,9 +76,6 @@ type copyFileJob struct {
 // copyDir recursively copies the src directory to the desination directory.
 // Creates directories as necessary. Attempts to chmod everything to the src
 // mode.
-// With the opt.verbose option set outputs the src and destination of each
-// copied file.
-// Skips hidden files base on the opt.hidden option.
 func copyDir(src, dst string) error {
 	// First compile a list of copies to execute then execute, otherwise
 	// infinite copy situations could arise when copying a parent directory
