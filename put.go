@@ -192,7 +192,7 @@ type ttHolder struct {
 // ttCheck is a holder to provide to the template engine variables necessary to
 // output a check that a value received for a result matches the expected value.
 type ttCheck struct {
-	Expected, Got string
+	Name, Expected, Got string
 }
 
 // newTTHolder initiates the variables necessary to render a table test, returns
@@ -204,7 +204,7 @@ func newTTHolder(td ttDecl, appendNewLines bool) (*ttHolder, error) {
 	// Get the struct slide and compile a list of its fields.
 	tds, ok := isStructSlice(td.tt)
 	if !ok {
-		return nil, fmt.Errorf("%s is not a struct slice\n", td.ttIdent)
+		return nil, fmt.Errorf("%s is not a struct slice", td.ttIdent)
 	}
 	var fields []string
 	for _, s := range tds.Fields.List {
@@ -240,7 +240,8 @@ func newTTHolder(td ttDecl, appendNewLines bool) (*ttHolder, error) {
 	var checks []ttCheck
 	addResult := func() {
 		field := fields[i]
-		checks = append(checks, ttCheck{fmt.Sprintf("tt.%s", field), field})
+		checks = append(checks,
+			ttCheck{field, fmt.Sprintf("tt.%s", field), field})
 		results = append(results, field)
 		i++
 	}

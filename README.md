@@ -114,7 +114,7 @@ func DummyFunction(a, b int) (c, d, e int, f float64, err error) {
 var ttDummyFunction = []struct {
 	// inputs
 	a, b int
-	// ouputs
+	// outputs
 	c, d, e int
 	f       float64
 	err     error
@@ -140,7 +140,7 @@ func DummyFunction(a, b int) (c, d, e int, f float64, err error) {
 var ttDummyFunction = []struct {
 	// inputs
 	a, b int
-	// ouputs
+	// outputs
 	c, d, e int
 	f       float64
 	err     error
@@ -156,19 +156,19 @@ func TestTTDummyFunction(t *testing.T) {
 	for i, tt := range ttDummyFunction {
 		c, d, e, f, err := DummyFunction(tt.a, tt.b)
 		if c != tt.c {
-			t.Errorf("%d : got %v, expected %v", i, c, tt.c)
+			t.Errorf("%d : c : got %v, expected %v", i, c, tt.c)
 		}
 		if d != tt.d {
-			t.Errorf("%d : got %v, expected %v", i, d, tt.d)
+			t.Errorf("%d : d : got %v, expected %v", i, d, tt.d)
 		}
 		if e != tt.e {
-			t.Errorf("%d : got %v, expected %v", i, e, tt.e)
+			t.Errorf("%d : e : got %v, expected %v", i, e, tt.e)
 		}
 		if f != tt.f {
-			t.Errorf("%d : got %v, expected %v", i, f, tt.f)
+			t.Errorf("%d : f : got %v, expected %v", i, f, tt.f)
 		}
 		if err != tt.err {
-			t.Errorf("%d : got %v, expected %v", i, err, tt.err)
+			t.Errorf("%d : err : got %v, expected %v", i, err, tt.err)
 		}
 	}
 }
@@ -178,7 +178,7 @@ func TestTTDummyFunction(t *testing.T) {
 
 Improve error messages of the generated tests, can base on the output type :
 
-- Identify the particular test that failed.
+- Allow naming of expected values with field tags.
 - If outputs a struct it could test that each field of the struct matches
   expectations and output errors for individual fields.
 - If outputs a map it could test that all the keys match expectations and output

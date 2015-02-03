@@ -5,7 +5,7 @@ package main
 var ttDummyFunction = []struct {
 	// inputs
 	a, b int
-	// ouputs
+	// outputs
 	c, d, e int
 	f       float64
 	err     error
