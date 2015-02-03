@@ -20,20 +20,20 @@ var ttDummyFunction = []struct {
 func TestTTDummyFunction(t *testing.T) {
 	for i, tt := range ttDummyFunction {
 		c, d, e, f, err := DummyFunction(tt.a, tt.b)
-		if tt.c != c {
-			t.Errorf("%d : expected %v, got %v", i, tt.c, c)
+		if c != tt.c {
+			t.Errorf("%d : got %v, expected %v", i, c, tt.c)
 		}
-		if tt.d != d {
-			t.Errorf("%d : expected %v, got %v", i, tt.d, d)
+		if d != tt.d {
+			t.Errorf("%d : got %v, expected %v", i, d, tt.d)
 		}
-		if tt.e != e {
-			t.Errorf("%d : expected %v, got %v", i, tt.e, e)
+		if e != tt.e {
+			t.Errorf("%d : got %v, expected %v", i, e, tt.e)
 		}
-		if tt.f != f {
-			t.Errorf("%d : expected %v, got %v", i, tt.f, f)
+		if f != tt.f {
+			t.Errorf("%d : got %v, expected %v", i, f, tt.f)
 		}
-		if tt.err != err {
-			t.Errorf("%d : expected %v, got %v", i, tt.err, err)
+		if err != tt.err {
+			t.Errorf("%d : got %v, expected %v", i, err, tt.err)
 		}
 	}
 }
