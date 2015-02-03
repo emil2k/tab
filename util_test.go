@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/emil2k/tab/lib/diff"
 )
 
 // testFiles compares the contents of two files specified by the passed paths,
@@ -33,8 +35,17 @@ func testFiles(t *testing.T, got, expected string) {
 	expectedContent, err := ioutil.ReadAll(expectedF)
 	check(err)
 	if !bytes.Equal(gotContent, expectedContent) {
-		t.Errorf("contents dont't match, got %s :\n%s\nexpected %s :\n%s\n",
-			got, gotContent, expected, expectedContent)
+		changes := diff.Bytes(gotContent, expectedContent)
+		for _, c := range changes {
+			if c.Del > 0 {
+				t.Errorf("diff found, removed :\n%s\n",
+					gotContent[c.A:c.A+c.Del])
+			}
+			if c.Ins > 0 {
+				t.Errorf("diff found, inserted :\n%s\n",
+					expectedContent[c.B:c.B+c.Ins])
+			}
+		}
 	}
 }
 
